@@ -1,21 +1,28 @@
 "use client";
 
+import { useRouter } from 'next/navigation';
+
 import { FormButton } from "@/components/Links";
 import { FormButton as UnimplementedFormButton } from "@/components/Unimplemented"; 
 
 export default function LoginContent() {
+    const router = useRouter();
+    
     const postForm = async (form) => {
         try {
             const response = await fetch(form.action, {
                 method: "POST",
-                body: new FormData(form)
+                body: new FormData(form),
+                credentials: "include"
             });
 
-            if (!response.ok) {
+            if (response.status == 401) {
+                throw new Error("Combinación de email y contraseña incorrecta.");
+            } else if (!response.ok) {
                 throw new Error("Error en la solicitud.");
             }
 
-            alert("Success!");
+            window.location.href = "/";
         } catch (e) {
             console.log(e);
             alert(`Error encontrado:\n\n${e.message}`);

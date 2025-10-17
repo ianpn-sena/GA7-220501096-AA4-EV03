@@ -1,14 +1,31 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link"
+import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
-export default function NavigationMenu() {
+export default function NavigationMenu({ authenticated }) {
     const pathname = usePathname();
+    const router = useRouter();
 
-    const handleLogoutClick = (e) => {
+    const handleLogoutClick = async (e) => {
       e.preventDefault();
-      alert("Funcionalidad no implementada aun.");
+
+      try {
+          const response = await fetch(`${process.env.API_ROOT}/logout`, {
+              method: "GET",
+              credentials: "include"
+          });
+
+          if (!response.ok) {
+              throw new Error("Error cerrando sesión.");
+          }
+
+          window.location.href = "/login";
+      } catch (e) {
+          console.log(e);
+          alert(`Error encontrado:\n\n${e.message}`);
+      }
     };
 
     return (
@@ -20,7 +37,9 @@ export default function NavigationMenu() {
         </ul>
         <ul className="block">
             <li className="block lg:inline-block m-4"><Link href="/administracion/perfil" className={pathname == "/administracion/perfil" ? "underline font-extrabold" : "underline"}>Perfil</Link></li>
-            <li className="block lg:inline-block m-4"><a href="#" className="underline" onClick={handleLogoutClick}>Cerrar Sesión</a></li>
+            { authenticated && (
+              <li className="block lg:inline-block m-4"><a href="#" className="underline" onClick={handleLogoutClick}>Cerrar Sesión</a></li>
+            )}
         </ul>
     </nav>
   );

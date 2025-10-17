@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers';
+
 import NavigationMenu from "@/components/Header";
 import About from "@/components/Footer";
 
@@ -8,11 +10,14 @@ export const metadata = {
 
 import "./globals.css";
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('SGPS_SESSION_TOKEN');
+
   return (
     <html lang="es">
       <body className="bg-foreground text-background">
-        <NavigationMenu />
+        <NavigationMenu authenticated={ token?.value ? true : false } />
         <div className="bg-background text-primary text-center p-8">
           {children}
         </div>
