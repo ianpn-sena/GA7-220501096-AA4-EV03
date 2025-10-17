@@ -1,7 +1,17 @@
+import { cookies } from 'next/headers'
+import { redirect } from "next/navigation";
+
 import SearchBar from "@/components/Search";
 import { ButtonAnchor, Anchor } from "@/components/Unimplemented";
 
-export default function Proyectos() {
+export default async function Proyectos() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('SGPS_SESSION_TOKEN');
+
+  if (!token?.value) {
+    redirect("/login");
+  }
+
   return (
     <main className="flex flex-col items-center bg-background text-primary text-center p-8 sm:min-h-[500px]">
           <h1 className="text-4xl font-extrabold mb-8">Administrar Proyectos</h1>

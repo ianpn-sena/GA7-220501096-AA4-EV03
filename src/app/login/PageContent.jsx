@@ -52,10 +52,11 @@ export default function LoginContent() {
                     <input type="email" id="email" name="email" placeholder="Email" className="border-solid border-1 p-1 w-full sm:w-3xs" required />
                     <label htmlFor="password" className="text-right">Contraseña</label>
                     <input type="password" id="password" name="password" placeholder="Contraseña" className="border-solid border-1 p-1 w-full sm:w-3xs" required />
+                    <div className="flex justify-end"><FormButton type="submit" value="Ingresar" /></div>
+                    <div><UnimplementedFormButton type="button" value="¿Olvidaste tu contraseña?" /></div>
                 </div>
                 <div className="flex items-center justify-center gap-8 w-full sm:w-3/5">
-                    <FormButton type="submit" value="Cambiar Email" />
-                    <UnimplementedFormButton type="button" value="Olvidaste tu contraseña?" />
+
                 </div>
             </form>
         </main>

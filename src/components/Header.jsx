@@ -21,7 +21,7 @@ export default function NavigationMenu({ authenticated }) {
               throw new Error("Error cerrando sesión.");
           }
 
-          window.location.href = "/login";
+          window.location.href = "/";
       } catch (e) {
           console.log(e);
           alert(`Error encontrado:\n\n${e.message}`);

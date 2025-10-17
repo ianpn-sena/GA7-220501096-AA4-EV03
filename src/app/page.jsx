@@ -9,7 +9,5 @@ export default async function Home() {
 		redirect("/login");
 	}
 
-	return (
-		<p>{ token.value }</p>
-	);
+	redirect("/administracion");
 };
