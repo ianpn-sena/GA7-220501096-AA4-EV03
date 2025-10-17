@@ -1,20 +1,26 @@
 import { cookies } from 'next/headers'
 import { redirect } from "next/navigation";
 
+import LandingAdministracionContent from './PageContent';
+
 export default async function LandingAdministracion() {
 	const cookieStore = await cookies();
 	const token = cookieStore.get('SGPS_SESSION_TOKEN');
+	const userId = cookieStore.get('SGPS_SESSION_USER');
 
-	if (!token?.value) {
+	if (!token?.value || !userId?.value) {
 		redirect("/login");
 	}
 
-	return (
-		<main className="flex items-center bg-background text-primary text-center p-8 sm:min-h-[500px]">
-			<div className="mx-auto">
-				<h1 className="text-4xl font-bold mb-16">¡Bienvenido, «<span className="text-secondary">Dirección General</span>»!</h1>
-				<p className="text-2xl">Seleccione una opción en el menú superior para continuar.</p>
-			</div>
-		</main>
-	);
+	console.log("URL: " + `${process.env.API_ROOT}/user/${userId?.value}`);
+	const response = await fetch(`${process.env.API_ROOT}/user/${userId?.value}`, {
+		method: "GET",
+		credentials: "include",
+		headers: {
+			Cookie: `SGPS_SESSION_TOKEN=${token?.value}; SGPS_SESSION_USER=${userId?.value}`
+		}
+	});
+	const data = await response.json();
+
+	return <LandingAdministracionContent user={data} />
 };
