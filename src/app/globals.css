@@ -24,3 +24,11 @@ body {
 button, input[type="submit"], input[type="reset"], input[type="button"] {
   cursor: pointer;
 }
+
+input[disabled] {
+  @apply bg-slate-200;
+}
+
+select[disabled] {
+  @apply bg-slate-200;
+}
