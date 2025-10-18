@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/**
+ * Define estilos globales.
+ * Muchos de estos estilos son por defecto de Tailwind.
+ */
+
 :root {
   --background: #fff;
   --foreground: #000;

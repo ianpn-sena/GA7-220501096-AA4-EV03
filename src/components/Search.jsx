@@ -2,6 +2,13 @@
 
 import Image from "next/image";
 
+/**
+ * Componente sencillo que consiste de una barra de búsqueda: un campo de texto, y un
+ * botón para enviar la consulta de búsqueda.
+ * 
+ * Actualmente la búsqueda no está implementada, así que muestra una alerta de
+ * funcionalidad no implementada.
+ */
 export default function SearchBar () {
   const handleSubmitForm = (e) => {
     e.preventDefault();

@@ -1,5 +1,9 @@
 import Image from "next/image";
 
+/**
+ * Define un footer compartido por toda la aplicación.
+ * Muestra información sobre la empresa que debe estar siempre presente en todas las páginas.
+ */
 export default function About() {
   return (
     <footer className="block sm:flex justify-between p-8 text-center sm:text-start align-middle">

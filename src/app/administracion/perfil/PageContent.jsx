@@ -3,10 +3,35 @@
 import { FormButton } from "@/components/Unimplemented";
 import { useEffect, useState } from "react"; 
 
+/**
+ * Componente de muestra y edición de la página de perfil del usuario actualmente autenticado.
+ * 
+ * La funcionalidad no está completamente implementada, y por el momento sólo se muestra
+ * un formulario de solo lectura, que usa los datos del usuario actualmente autenticado.
+ * 
+ * Si el usuario no está autenticado actualmente, se refirige a la página de login.
+ */
 export default function PerfilContent({ user }) {
-  const [ formData, setFormData ] = useState({});
+  // Estado del componente.
+  const [ showForm, setShowForm ] = useState(false);
+  const [ formData, setFormData ] = useState({
+      names: "",
+      surname: "",
+      document_type_id: "",
+      document_number: "",
+      email: "",
+      country_id: "",
+      department_id: "",
+      city_id: "",
+      phone_number: "",
+      address_1: "",
+      address_2: "",
+      zip_code: ""
+    });
 
+  // Vuelve a asignar un estado inicial cada vez que el prop user cambia.
   useEffect(() => {
+    // Asigna los datos usados por el formulario en formData.
     setFormData({
       names: user?.names,
       surname: user?.surname,
@@ -20,9 +45,16 @@ export default function PerfilContent({ user }) {
       address_1: user?.contact?.address1,
       address_2: user?.contact?.address2,
       zip_code: user?.contact?.zipCode
-    })
+    });
+
+    setShowForm(true);
   }, [user]);
 
+  /**
+   * Funcionalidad ejecutada al enviar el formulario si todos los campos son válidos.
+   * 
+   * Actualmente no está implementada esta funcionalidad, así que se muestra una alerta.
+   */
   const handleSubmitForm = (e) => {
     e.preventDefault();
 
@@ -36,8 +68,12 @@ export default function PerfilContent({ user }) {
     form.reportValidity();
   };
 
-  return formData ? (
-    <main className="flex flex-col items-center bg-background text-primary text-center p-8 sm:min-h-[500px]">
+  /**
+   * Muestra el formulario con todos los datos del usuario en caso de estar inicializado
+   * formData. De lo contrario, no muestra nada.
+   */
+  return (
+    <main className={`flex flex-col items-center bg-background text-primary text-center p-8 sm:min-h-[500px] ${showForm ? "" : "invisible"}`}>
       <h1 className="text-4xl font-extrabold mb-8">Perfil</h1>
 
       <form id="form_perfil" action="#" method="GET" className="flex flex-col items-center w-full" onSubmit={handleSubmitForm}>
@@ -47,7 +83,7 @@ export default function PerfilContent({ user }) {
           <label htmlFor="surname" className="text-right">Apellido(s)</label>
           <input type="text" id="surname" name="surname" placeholder="Apellidos" value={formData.surname} className="border-solid border-1 p-1 w-full sm:w-3xs" required disabled />
           <label htmlFor="document_type_id" className="text-right">Tipo de Documento</label>
-          <select id="document_type_id" name="document_type_id" defaultValue="" value={formData.document_type_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
+          <select id="document_type_id" name="document_type_id" value={formData.document_type_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
             <option value="">Seleccione una opción</option>
             <option value="1">Cédula de Ciudadanía</option>
             <option value="2">Cédula de Extranjería</option>
@@ -59,12 +95,12 @@ export default function PerfilContent({ user }) {
           <label htmlFor="email" className="text-right">Email</label>
           <input type="email" id="email" name="email" placeholder="Email" value={formData.email} className="border-solid border-1 p-1 w-full sm:w-3xs" required disabled />
           <label htmlFor="country_id" className="text-right">País</label>
-          <select id="country_id" name="country_id" defaultValue="" value={formData.country_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
+          <select id="country_id" name="country_id" value={formData.country_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
             <option value="">Seleccione una opción</option>
             <option value="1">Colombia</option>
           </select>
           <label htmlFor="department_id" className="text-right">Departamento</label>
-          <select id="department_id" name="department_id" defaultValue="" value={formData.department_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
+          <select id="department_id" name="department_id" value={formData.department_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
             <option value="">Seleccione una opción</option>
             <option value="1">Cundinamarca</option>
             <option value="2">Antioquia</option>
@@ -73,7 +109,7 @@ export default function PerfilContent({ user }) {
             <option value="5">Atlántico</option>
           </select>
           <label htmlFor="city_id" className="text-right">Ciudad</label>
-          <select id="city_id" name="city_id" defaultValue="" value={formData.city_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
+          <select id="city_id" name="city_id" value={formData.city_id} className="border-solid border-1 p-1.5 w-full sm:w-3xs" required disabled>
             <option value="">Seleccione una opción</option>
             <option value="1">Bogotá</option>
             <option value="2">Medellín</option>
@@ -89,12 +125,12 @@ export default function PerfilContent({ user }) {
           <input type="text" id="address_2" name="address_2" placeholder="Dirección (segunda línea)" value={formData.address_2} className="border-solid border-1 p-1 w-full sm:w-3xs" disabled/>
           <label htmlFor="zip_code" className="text-right">Código ZIP</label>
           <input type="text" id="zip_code" name="zip_code" placeholder="Código ZIP" value={formData.zip_code} className="border-solid border-1 p-1 w-full sm:w-3xs" disabled/>
-      </div>
-      <div className="flex items-center justify-around w-full sm:w-3/5">
-          <FormButton type="submit" value="Actualizar" />
-          <FormButton type="button" value="Cambiar Email" />
-      </div>
-    </form>
+        </div>
+        <div className="flex items-center justify-around w-full sm:w-3/5">
+            <FormButton type="submit" value="Actualizar" />
+            <FormButton type="button" value="Cambiar Email" />
+        </div>
+      </form>
     </main>
-  ) : <></>;
+  );
 }

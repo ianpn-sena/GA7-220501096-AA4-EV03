@@ -4,14 +4,23 @@ import { redirect } from "next/navigation";
 import SearchBar from "@/components/Search";
 import { ButtonAnchor, Anchor } from "@/components/Unimplemented";
 
+/**
+ * Define la página de administración de desarrolladores.
+ * 
+ * Note que esta página aun no está implementada. Sin embargo, solo puede ser
+ * vista por usuarios autenticados.
+ */
 export default async function Desarrolladores() {
+  // Obtiene información de sesión, en caso de existir
   const cookieStore = await cookies();
   const token = cookieStore.get('SGPS_SESSION_TOKEN');
 
+  // Si no existe una sesión, se redirige a la página de login.
   if (!token?.value) {
     redirect("/login");
   }
 
+  // Se define y regresa el HTML de este componente.
   return (
     <main className="flex flex-col items-center bg-background text-primary text-center p-8 sm:min-h-[500px]">
           <h1 className="text-4xl font-extrabold mb-8">Administrar Desarrolladores</h1>
